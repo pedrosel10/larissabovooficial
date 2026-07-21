@@ -5295,20 +5295,32 @@
 			renderer.toneMappingExposure = 1.0;
 			container.appendChild(renderer.domElement);
 
-			// PMREMGenerator para converter o HDRI EXR em iluminação e reflexo metálico realista
+			// PMREMGenerator para converter o HDRI EXR em iluminação e reflexo metálico realista (com fallback WebGL Safari/iOS)
 			const pmremGenerator = new THREE.PMREMGenerator(renderer);
 			pmremGenerator.compileEquirectangularShader();
 
-			new THREE.EXRLoader().load('/graaff_reinet_groote_kerk_1k.exr', function (texture) {
+			// Fallback Safari iOS: configurar tipo de textura EXR seguro caso HalfFloat não seja suportado nativamente
+			const exrLoader = new THREE.EXRLoader();
+			if (THREE.HalfFloatType) {
+				exrLoader.setDataType(THREE.HalfFloatType);
+			}
+
+			exrLoader.load('/graaff_reinet_groote_kerk_1k.exr', function (texture) {
 				const exrCubeRenderTarget = pmremGenerator.fromEquirectangular(texture);
 				scene.environment = exrCubeRenderTarget.texture;
 				texture.dispose();
 				pmremGenerator.dispose();
+			}, undefined, function (err) {
+				console.warn("EXR HDRI Fallback ativo para Safari Mobile:", err);
 			});
 
-			// 2. Sistema de Iluminação de Bordas e Contornos (Rim Lighting)
-			const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+			// 2. Sistema de Iluminação Robusto (Corta sombras pretas no Safari Mobile)
+			const ambientLight = new THREE.AmbientLight(0xfff0d6, 1.2); // Intensidade reforçada para iOS Safari
 			scene.add(ambientLight);
+
+			const mainDirectionalLight = new THREE.DirectionalLight(0xfffae8, 2.5);
+			mainDirectionalLight.position.set(100, 200, 200);
+			scene.add(mainDirectionalLight);
 
 			// Luz Principal reativa do Mouse (Frente-Superior)
 			const pointLight = new THREE.PointLight(0xfff5e0, 3.5, 700);
@@ -5385,7 +5397,9 @@
 				const baseHeight = isMobile ? 162 : 202.5; // 202.5 - 20% = 162
 				const fitScale = Math.min(baseWidth / size.x, baseHeight / size.y);
 
-				logoGroup.scale.set(fitScale, fitScale, fitScale);
+				// Sinalizar que a logo 3D foi 100% carregada e pronta para exibição
+				window.isThreeLogoReady = true;
+				window.dispatchEvent(new CustomEvent('threeLogoReady'));
 			});
 
 			// 4. Captura de movimento do mouse (Desktop) e Touch / Scroll (Mobile)
@@ -5537,8 +5551,13 @@
 
 			const totalFadeTime = 120 + charCount * 85 + 450;
 
-			// 4. Fechar o preloader puxando as fatias (fatiando o texto junto)
-			function dismissPreloader() {
+			// 4. Fechar o preloader puxando as fatias APENAS quando a página e o 3D estiverem 100% prontos
+			let isPageLoaded = false;
+			let isLogoReady = window.isThreeLogoReady || false;
+
+			function tryDismissPreloader() {
+				if (!isPageLoaded || !isLogoReady) return;
+
 				setTimeout(() => {
 					preloader.classList.add('exit');
 					setTimeout(() => {
@@ -5546,14 +5565,30 @@
 							preloader.parentNode.removeChild(preloader);
 						}
 					}, 1300);
-				}, Math.max(totalFadeTime, 1100));
+				}, Math.max(totalFadeTime - Date.now(), 200));
 			}
 
+			window.addEventListener('threeLogoReady', function () {
+				isLogoReady = true;
+				tryDismissPreloader();
+			});
+
 			if (document.readyState === 'complete') {
-				dismissPreloader();
+				isPageLoaded = true;
+				tryDismissPreloader();
 			} else {
-				window.addEventListener('load', dismissPreloader);
+				window.addEventListener('load', function () {
+					isPageLoaded = true;
+					tryDismissPreloader();
+				});
 			}
+
+			// Timeout de segurança (máximo 4s) para garantir que a tela nunca trave
+			setTimeout(() => {
+				isPageLoaded = true;
+				isLogoReady = true;
+				tryDismissPreloader();
+			}, 4000);
 		})();
 	</script>
 	<span id="elementor-device-mode" class="elementor-screen-only"></span><svg style="display: none;"
