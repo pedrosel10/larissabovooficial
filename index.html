@@ -5462,15 +5462,11 @@
 				const scrollAngleX = (currentScroll * 0.0008); // Giro vertical visível proporcional ao scroll
 
 				if (isMobileWidth) {
-					// 1. Oscilação super lenta e fluida para os lados (Eixo Y) (4x mais lento: 0.00045)
-					targetRotateY = Math.sin(time * 0.00045) * 0.14;
+					// Sem oscilação lateral (Eixo Y estático no centro)
+					targetRotateY = 0;
 
-					// 2. Giro no eixo X com o scroll no mobile
+					// Giro no eixo X com a rolagem da página (Scroll)
 					targetRotateX = -scrollAngleX;
-
-					// Movimento ultra suave das luzes no mobile
-					pointLight.position.x = Math.sin(time * 0.00045) * 150;
-					rimLightRight.position.x = 200 + Math.sin(time * 0.00045) * 60;
 				} else {
 					// No desktop, combina rotação do mouse com o giro do scroll
 					targetRotateX = targetRotateX - scrollAngleX * 0.5;
