@@ -5539,7 +5539,12 @@
 				[charIndices[i], charIndices[j]] = [charIndices[j], charIndices[i]];
 			}
 
-			// 3. Revelar cada letra (em todas as fatias simultaneamente) aleatoriamente
+			// 3. Revelar cada letra aleatoriamente
+			let isTextAnimationDone = false;
+			const letterInterval = 85;
+			const initialDelay = 150;
+			const holdAfterText = 400; // Tempo de pausa com o texto completo na tela antes de abrir a cortina
+
 			charIndices.forEach((charIndex, order) => {
 				setTimeout(() => {
 					for (let s = 0; s < stripCount; s++) {
@@ -5547,26 +5552,29 @@
 							charMatrix[s][charIndex].classList.add('visible');
 						}
 					}
-				}, 120 + order * 85);
+				}, initialDelay + order * letterInterval);
 			});
 
-			const totalFadeTime = 120 + charCount * 85 + 450;
+			const totalAnimationTime = initialDelay + charCount * letterInterval + holdAfterText;
 
-			// 4. Fechar o preloader puxando as fatias APENAS quando a página e o 3D estiverem 100% prontos
+			setTimeout(() => {
+				isTextAnimationDone = true;
+				tryDismissPreloader();
+			}, totalAnimationTime);
+
+			// 4. Fechar o preloader APENAS quando: (Animacao do Texto concluída) + (Página pronta) + (3D pronto)
 			let isPageLoaded = false;
 			let isLogoReady = window.isThreeLogoReady || false;
 
 			function tryDismissPreloader() {
-				if (!isPageLoaded || !isLogoReady) return;
+				if (!isTextAnimationDone || !isPageLoaded || !isLogoReady) return;
 
+				preloader.classList.add('exit');
 				setTimeout(() => {
-					preloader.classList.add('exit');
-					setTimeout(() => {
-						if (preloader.parentNode) {
-							preloader.parentNode.removeChild(preloader);
-						}
-					}, 1300);
-				}, Math.max(totalFadeTime - Date.now(), 200));
+					if (preloader.parentNode) {
+						preloader.parentNode.removeChild(preloader);
+					}
+				}, 1300);
 			}
 
 			window.addEventListener('threeLogoReady', function () {
@@ -5584,12 +5592,13 @@
 				});
 			}
 
-			// Timeout de segurança (máximo 4s) para garantir que a tela nunca trave
+			// Timeout de segurança máximo (5s)
 			setTimeout(() => {
+				isTextAnimationDone = true;
 				isPageLoaded = true;
 				isLogoReady = true;
 				tryDismissPreloader();
-			}, 4000);
+			}, 5000);
 		})();
 	</script>
 	<span id="elementor-device-mode" class="elementor-screen-only"></span><svg style="display: none;"
