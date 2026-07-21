@@ -5402,16 +5402,18 @@
 				window.dispatchEvent(new CustomEvent('threeLogoReady'));
 			});
 
-			// 4. Captura de movimento do mouse (Desktop) e Touch / Scroll (Mobile)
-			let isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-			let scrollOffset = 0;
+			// 4. Captura de movimento do mouse (Desktop) e Scroll (Mobile + Desktop)
+			let isMobileWidth = window.innerWidth <= 768 || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+			let scrollOffset = window.scrollY || window.pageYOffset || 0;
 
-			window.addEventListener('scroll', function () {
-				// Captura o scroll da página para inclinar o 3D levemente no eixo X
-				scrollOffset = window.scrollY || window.pageYOffset || 0;
-			}, { passive: true });
+			function updateScroll() {
+				scrollOffset = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+			}
 
-			if (!isTouchDevice) {
+			window.addEventListener('scroll', updateScroll, { passive: true });
+			window.addEventListener('touchmove', updateScroll, { passive: true });
+
+			if (!isMobileWidth) {
 				window.addEventListener('mousemove', function (e) {
 					const rect = container.getBoundingClientRect();
 					const mouseX = (e.clientX - (rect.left + width / 2)) / (window.innerWidth / 2);
@@ -5434,6 +5436,7 @@
 
 				if (currentWidth === 0 || currentHeight === 0) return;
 
+				isMobileWidth = window.innerWidth <= 768 || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
 				camera.aspect = currentWidth / currentHeight;
 				camera.updateProjectionMatrix();
 				renderer.setSize(currentWidth, currentHeight);
@@ -5454,26 +5457,28 @@
 			function animate(time) {
 				requestAnimationFrame(animate);
 
-				if (isTouchDevice) {
-					// 1. Oscilação leve e fluida para os lados (Eixo Y) usando onda seno (~ +/- 6 graus)
-					targetRotateY = Math.sin(time * 0.0018) * 0.10;
+				// Giro no Eixo X baseado na Rolagem da Página (Scroll)
+				const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+				const scrollAngleX = (currentScroll * 0.0008); // Giro vertical visível proporcional ao scroll
 
-					// 2. Inclinação no eixo X proporcional à rolagem da página (Scroll)
-					const scrollImpact = Math.min(scrollOffset * 0.0003, 0.18);
-					targetRotateX = -scrollImpact;
+				if (isMobileWidth) {
+					// 1. Oscilação super lenta e fluida para os lados (Eixo Y) (4x mais lento: 0.00045)
+					targetRotateY = Math.sin(time * 0.00045) * 0.14;
 
-					// Movimento suave das luzes no mobile acompanhando a oscilação
-					pointLight.position.x = Math.sin(time * 0.0018) * 150;
-					rimLightRight.position.x = 200 + Math.sin(time * 0.0018) * 60;
+					// 2. Giro no eixo X com o scroll no mobile
+					targetRotateX = -scrollAngleX;
+
+					// Movimento ultra suave das luzes no mobile
+					pointLight.position.x = Math.sin(time * 0.00045) * 150;
+					rimLightRight.position.x = 200 + Math.sin(time * 0.00045) * 60;
 				} else {
-					// No desktop, combina movimento do mouse com leve inclinação no scroll
-					const scrollImpact = Math.min(scrollOffset * 0.0002, 0.12);
-					targetRotateX = (-targetRotateX) - scrollImpact;
+					// No desktop, combina rotação do mouse com o giro do scroll
+					targetRotateX = targetRotateX - scrollAngleX * 0.5;
 				}
 
 				// Lerp para suavizar o movimento continuo
-				logoGroup.rotation.y += (targetRotateY - logoGroup.rotation.y) * 0.08;
-				logoGroup.rotation.x += (targetRotateX - logoGroup.rotation.x) * 0.08;
+				logoGroup.rotation.y += (targetRotateY - logoGroup.rotation.y) * 0.04;
+				logoGroup.rotation.x += (targetRotateX - logoGroup.rotation.x) * 0.04;
 
 				renderer.render(scene, camera);
 			}
