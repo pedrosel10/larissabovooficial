@@ -8,12 +8,14 @@
 		html {
 			background-color: #130608 !important;
 		}
+
 		#preloader {
 			position: fixed;
-			top: 0;
+			top: -20vh;
 			left: 0;
 			width: 100vw;
-			height: 100vh;
+			height: 140vh;
+			height: 140dvh;
 			z-index: 9999999;
 			pointer-events: auto;
 			overflow: hidden;
@@ -79,34 +81,34 @@
 			width: 0.4em;
 		}
 
-		/* Saída das fatias */
+		/* Saída das fatias (Subindo 140% para limpar a tela totalmente estendida) */
 		#preloader.exit .preloader-strip:nth-child(1),
 		#preloader.exit .preloader-strip:nth-child(10) {
-			transform: translateY(-100%);
+			transform: translateY(-140%);
 			transition-delay: 0.05s;
 		}
 
 		#preloader.exit .preloader-strip:nth-child(2),
 		#preloader.exit .preloader-strip:nth-child(9) {
-			transform: translateY(-100%);
+			transform: translateY(-140%);
 			transition-delay: 0.12s;
 		}
 
 		#preloader.exit .preloader-strip:nth-child(3),
 		#preloader.exit .preloader-strip:nth-child(8) {
-			transform: translateY(-100%);
+			transform: translateY(-140%);
 			transition-delay: 0.19s;
 		}
 
 		#preloader.exit .preloader-strip:nth-child(4),
 		#preloader.exit .preloader-strip:nth-child(7) {
-			transform: translateY(-100%);
+			transform: translateY(-140%);
 			transition-delay: 0.26s;
 		}
 
 		#preloader.exit .preloader-strip:nth-child(5),
 		#preloader.exit .preloader-strip:nth-child(6) {
-			transform: translateY(-100%);
+			transform: translateY(-140%);
 			transition-delay: 0.33s;
 		}
 	</style>
@@ -1419,16 +1421,16 @@
 		}
 
 		.elementor-13 .elementor-element.card-diagnostico-title {
-			width: var(--container-widget-width, 280px);
-			max-width: 280px;
-			--container-widget-width: 280px;
+			width: var(--container-widget-width, 330px);
+			max-width: 330px;
+			--container-widget-width: 330px;
 			--container-widget-flex-grow: 0
 		}
 
 		.elementor-13 .elementor-element.card-diagnostico-title .elementor-heading-title {
 			font-family: "Noto Serif Display";
-			font-size: 32px;
-			font-weight: 600;
+			font-size: 40px;
+			font-weight: 800;
 			font-style: italic;
 			color: #fff;
 			line-height: 1.1em;
@@ -2241,15 +2243,15 @@
 			}
 
 			.elementor-13 .elementor-element.card-diagnostico-title {
-				--container-widget-width: 180px;
+				--container-widget-width: 200px;
 				--container-widget-flex-grow: 0;
-				width: var(--container-widget-width, 180px);
-				max-width: 180px;
+				width: var(--container-widget-width, 200px);
+				max-width: 200px;
 				text-align: start
 			}
 
 			.elementor-13 .elementor-element.card-diagnostico-title .elementor-heading-title {
-				font-size: 20px
+				font-size: 24px
 			}
 
 			.elementor-13 .elementor-element.card-diagnostico-btn .elementor-button {
@@ -2507,10 +2509,10 @@
 			}
 
 			.elementor-13 .elementor-element.elementor-element-b3f4a13 {
-				--container-widget-width: 195px;
+				--container-widget-width: 275px;
 				--container-widget-flex-grow: 0;
-				width: var(--container-widget-width, 195px);
-				max-width: 195px;
+				width: var(--container-widget-width, 275px);
+				max-width: 275px;
 				text-align: start
 			}
 
@@ -4986,14 +4988,14 @@
 						data-element_type="container" data-e-type="container"
 						data-settings="{&quot;background_background&quot;:&quot;classic&quot;}">
 						<div class="elementor-element card-diagnostico-title elementor-widget__width-initial elementor-widget elementor-widget-heading"
-							data-element_type="widget" data-e-type="widget"
-							data-widget_type="heading.default">
-							<h2 class="elementor-heading-title elementor-size-default">Aplicar para sessão de diagnóstico.</h2>
+							data-element_type="widget" data-e-type="widget" data-widget_type="heading.default">
+							<h2 class="elementor-heading-title elementor-size-default">Aplicar para sessão de
+								diagnóstico.</h2>
 						</div>
 						<div class="elementor-element card-diagnostico-btn elementor-widget elementor-widget-button"
-							data-element_type="widget" data-e-type="widget"
-							data-widget_type="button.default">
-							<a class="elementor-button elementor-button-link elementor-size-sm" href="https://form.respondi.app/QzmN7yy7" target="_blank" rel="noopener">
+							data-element_type="widget" data-e-type="widget" data-widget_type="button.default">
+							<a class="elementor-button elementor-button-link elementor-size-sm"
+								href="https://form.respondi.app/QzmN7yy7" target="_blank" rel="noopener">
 								<span class="elementor-button-content-wrapper">
 									<span class="elementor-button-text">APLICAR</span>
 								</span>
@@ -5496,10 +5498,10 @@
 			for (let s = 0; s < stripCount; s++) {
 				const strip = strips[s];
 				if (!strip) continue;
-				
+
 				const container = document.createElement('div');
 				container.className = 'strip-text-container';
-				
+
 				// Posição horizontal alinhada com a tela inteira (0 a 100vw) compensando a fatia
 				container.style.left = `-${s * 10}vw`;
 
