@@ -5462,15 +5462,13 @@
 				const scrollAngleX = (currentScroll * 0.0008); // Giro vertical visível proporcional ao scroll
 
 				if (isMobileWidth) {
-					// Sem oscilação lateral (Eixo Y estático no centro)
+					// Sem oscilação lateral no mobile (Eixo Y estático no centro)
 					targetRotateY = 0;
 
-					// Giro no eixo X com a rolagem da página (Scroll)
+					// Giro no eixo X com a rolagem da página exclusivo do Mobile
 					targetRotateX = -scrollAngleX;
-				} else {
-					// No desktop, combina rotação do mouse com o giro do scroll
-					targetRotateX = targetRotateX - scrollAngleX * 0.5;
 				}
+				// No desktop (isMobileWidth === false), a rotação X/Y permanece puramente guiada pelo ponteiro do mouse
 
 				// Lerp para suavizar o movimento continuo
 				logoGroup.rotation.y += (targetRotateY - logoGroup.rotation.y) * 0.04;
