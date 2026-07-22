@@ -2541,8 +2541,30 @@
 			}
 		}
 
-		.elementor-13 .elementor-element.elementor-element-a9f831e {
-			border-bottom: none
+		.elementor-13 .elementor-element.elementor-element-66fb92e {
+			perspective: 1200px;
+		}
+
+		.elementor-13 .elementor-element.elementor-element-66fb92e > .e-child {
+			transform-style: preserve-3d;
+			transition: transform 0.15s ease-out, box-shadow 0.3s ease, filter 0.3s ease;
+			will-change: transform;
+			position: relative;
+			overflow: hidden;
+		}
+
+		.card-glare-effect {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
+			background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0) 70%);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			z-index: 10;
+			mix-blend-mode: overlay;
 		}
 
 		.elementor-13 .elementor-element.elementor-element-92b24af {
@@ -5281,6 +5303,95 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/SVGLoader.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/EXRLoader.js"></script>
+
+	<!-- GSAP + ScrollTrigger CDN -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			// Registo do ScrollTrigger no GSAP
+			if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+				gsap.registerPlugin(ScrollTrigger);
+
+				const cardGrid = document.querySelector('.elementor-element-66fb92e');
+				const cards = document.querySelectorAll('.elementor-element-66fb92e > .e-child');
+
+				if (cards.length > 0) {
+					// 1. Animação de Entrada em Cascata 3D (Stagger ScrollTrigger)
+					gsap.fromTo(cards, 
+						{ 
+							opacity: 0, 
+							y: 60, 
+							rotationX: 15,
+							scale: 0.94 
+						}, 
+						{
+							opacity: 1,
+							y: 0,
+							rotationX: 0,
+							scale: 1,
+							duration: 1.0,
+							stagger: 0.12,
+							ease: "power3.out",
+							scrollTrigger: {
+								trigger: cardGrid || cards[0],
+								start: "top 85%",
+								toggleActions: "play none none reverse"
+							}
+						}
+					);
+
+					// 2. Interação 3D Tilt Holográfico no Mouse (Desktop)
+					cards.forEach(card => {
+						// Cria o elemento de brilho/flare do card se não existir
+						let glare = card.querySelector('.card-glare-effect');
+						if (!glare) {
+							glare = document.createElement('div');
+							glare.className = 'card-glare-effect';
+							card.appendChild(glare);
+						}
+
+						card.addEventListener('mousemove', function (e) {
+							const rect = card.getBoundingClientRect();
+							const x = e.clientX - rect.left;
+							const y = e.clientY - rect.top;
+							const centerX = rect.width / 2;
+							const centerY = rect.height / 2;
+
+							// Rotação sutil max 12 deg
+							const rotateX = ((y - centerY) / centerY) * -10;
+							const rotateY = ((x - centerX) / centerX) * 10;
+
+							gsap.to(card, {
+								rotationX: rotateX,
+								rotationY: rotateY,
+								scale: 1.04,
+								transformPerspective: 1000,
+								ease: "power1.out",
+								duration: 0.3
+							});
+
+							// Efeito de Holofote no Cursor
+							glare.style.opacity = '1';
+							glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%)`;
+						});
+
+						card.addEventListener('mouseleave', function () {
+							gsap.to(card, {
+								rotationX: 0,
+								rotationY: 0,
+								scale: 1,
+								ease: "power2.out",
+								duration: 0.6
+							});
+							glare.style.opacity = '0';
+						});
+					});
+				}
+			}
+		});
+	</script>
 
 	<script>
 		document.addEventListener('DOMContentLoaded', function () {
