@@ -1208,7 +1208,7 @@
 			--margin-bottom: 0px;
 			--margin-left: 0px;
 			--margin-right: 0px;
-			--padding-top: 400px;
+			--padding-top: 320px;
 			--padding-bottom: 400px;
 			--padding-left: 0px;
 			--padding-right: 0px
@@ -1220,7 +1220,7 @@
 			background-image: url("/wp-content/uploads/2026/01/deskl01_1-5.webp");
 			background-position: top center;
 			background-repeat: no-repeat;
-			background-size: contain
+			background-size: 1800px auto
 		}
 
 		.elementor-13 .elementor-element.elementor-element-c94e3b6::before,
@@ -1238,24 +1238,39 @@
 
 		.elementor-13 .elementor-element.elementor-element-a9f831e {
 			--display: flex;
-			--flex-direction: row;
+			--flex-direction: column;
 			--container-widget-width: calc((1 - var(--container-widget-flex-grow)) * 100%);
 			--container-widget-height: 100%;
 			--container-widget-flex-grow: 1;
 			--container-widget-align-self: stretch;
 			--flex-wrap-mobile: wrap;
-			--align-items: flex-end;
-			--gap: 0px 80px;
+			--align-items: center;
+			--gap: 0px 0px;
 			--row-gap: 0px;
-			--column-gap: 80px;
-			--margin-top: 0px;
-			--margin-bottom: 0px;
-			--margin-left: 0px;
-			--margin-right: 0px;
-			--padding-top: 0px;
-			--padding-bottom: 20px;
-			--padding-left: 0px;
-			--padding-right: 0px
+			--column-gap: 0px;
+			text-align: center;
+			margin-top: 48px;
+		}
+
+		@media(min-width:768px) {
+			.elementor-13 .elementor-element.elementor-element-f0d1900 .elementor-icon#logo-3d-container {
+				max-width: 1100px !important;
+			}
+
+			.elementor-13 .elementor-element.elementor-element-32f6302 {
+				max-width: 100% !important;
+				margin-top: -25px !important;
+			}
+		}
+
+		--margin-top: 0px;
+		--margin-bottom: 0px;
+		--margin-left: 0px;
+		--margin-right: 0px;
+		--padding-top: 0px;
+		--padding-bottom: 20px;
+		--padding-left: 0px;
+		--padding-right: 0px
 		}
 
 		.elementor-widget-icon.elementor-view-default .elementor-icon {
@@ -1316,7 +1331,7 @@
 			--e-con-grid-template-columns: repeat(2, 1fr);
 			--e-con-grid-template-rows: repeat(4, 1fr);
 			--grid-auto-flow: row;
-			--margin-top: 60px;
+			--margin-top: 29px;
 			--margin-bottom: 0px;
 			--margin-left: 0px;
 			--margin-right: 0px;
@@ -2527,7 +2542,7 @@
 		}
 
 		.elementor-13 .elementor-element.elementor-element-a9f831e {
-			border-bottom: .5px solid #fff
+			border-bottom: none
 		}
 
 		.elementor-13 .elementor-element.elementor-element-92b24af {
@@ -4957,7 +4972,7 @@
 					style="--row-gap: 5px; --gap: 5px 0px; gap: 5px;">
 					<div class="elementor-element elementor-element-f0d1900 elementor-widget__width-initial elementor-view-default elementor-widget elementor-widget-icon"
 						data-id="f0d1900" data-element_type="widget" data-e-type="widget"
-						data-widget_type="icon.default" style="margin-bottom: -20px;">
+						data-widget_type="icon.default" style="margin-bottom: 0px; width: 100%; text-align: center;">
 						<div class="elementor-icon-wrapper">
 							<div class="elementor-icon" id="logo-3d-container"
 								style="width: 100%; max-width: 876px; aspect-ratio: 438 / 144; display: block; margin: 0 auto; position: relative;">
@@ -4966,8 +4981,8 @@
 					</div>
 					<div class="elementor-element elementor-element-32f6302 elementor-widget__width-initial elementor-widget elementor-widget-heading"
 						data-id="32f6302" data-element_type="widget" data-e-type="widget"
-						data-widget_type="heading.default" style="margin-top: 0px;">
-						<h2 class="elementor-heading-title elementor-size-default">Autoridade Soberana®: Atraia clientes
+						data-widget_type="heading.default" style="margin-top: 0px; text-align: center; width: 100%;">
+						<h2 class="elementor-heading-title elementor-size-default">Atraia clientes
 							qualificados e tenha mais lucro com uma imagem que gera desejo.</h2>
 					</div>
 				</div>
@@ -5445,9 +5460,31 @@
 			window.addEventListener('resize', handleResize);
 			window.addEventListener('load', handleResize);
 
+			// Flare de Luz periódico varrendo a logo de um lado para o outro
+			const flareLight = new THREE.PointLight(0xfffdf0, 8.0, 450);
+			flareLight.position.set(-400, 50, 120);
+			scene.add(flareLight);
+
 			// 6. Loop de Renderização a 60fps WebGL Direto
 			function animate(time) {
 				requestAnimationFrame(animate);
+
+				// Efeito Flare / Varredura de luz periódica da esquerda para a direita (a cada 4 segundos)
+				const seconds = time * 0.001;
+				const cycleDuration = 4.0; // ciclo a cada 4 segundos
+				const progress = (seconds % cycleDuration) / cycleDuration; // 0 a 1
+
+				if (progress < 0.4) {
+					// Durante 40% do ciclo (1.6s), a luz varre da esquerda (-400) até a direita (+400)
+					const t = progress / 0.4;
+					const easeT = t * t * (3 - 2 * t); // Smoothstep easing
+					flareLight.position.x = -400 + easeT * 800;
+					flareLight.intensity = Math.sin(t * Math.PI) * 10.0; // Brilho intenso no centro
+				} else {
+					// No restante do ciclo, a luz fica inativa à esquerda esperando o próximo ciclo
+					flareLight.intensity = 0;
+					flareLight.position.x = -400;
+				}
 
 				// Giro no Eixo X baseado na Rolagem da Página (Scroll)
 				const currentScroll = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
