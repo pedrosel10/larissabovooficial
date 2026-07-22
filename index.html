@@ -2142,8 +2142,8 @@
 				--column-gap: 0px;
 				--padding-top: 240px;
 				--padding-bottom: 250px;
-				--padding-left: 10px;
-				--padding-right: 10px
+				--padding-left: 25px;
+				--padding-right: 25px
 			}
 
 			.elementor-13 .elementor-element.elementor-element-c94e3b6:not(.elementor-motion-effects-element-type-background),
@@ -5368,9 +5368,8 @@
 						initCardsAnimation();
 					}
 
-					// 2. Interação 3D Tilt Holográfico no Mouse (Desktop)
+					// 2. Interação nos Cards
 					cards.forEach(card => {
-						// Cria o elemento de brilho/flare do card se não existir
 						let glare = card.querySelector('.card-glare-effect');
 						if (!glare) {
 							glare = document.createElement('div');
@@ -5378,42 +5377,98 @@
 							card.appendChild(glare);
 						}
 
-						card.addEventListener('mousemove', function (e) {
-							const rect = card.getBoundingClientRect();
-							const x = e.clientX - rect.left;
-							const y = e.clientY - rect.top;
-							const centerX = rect.width / 2;
-							const centerY = rect.height / 2;
+						// 2A. Efeito Tilt Holográfico no Mouse (Desktop)
+						if (!isMobile) {
+							card.addEventListener('mousemove', function (e) {
+								const rect = card.getBoundingClientRect();
+								const x = e.clientX - rect.left;
+								const y = e.clientY - rect.top;
+								const centerX = rect.width / 2;
+								const centerY = rect.height / 2;
 
-							// Rotação sutil max 12 deg
-							const rotateX = ((y - centerY) / centerY) * -10;
-							const rotateY = ((x - centerX) / centerX) * 10;
+								const rotateX = ((y - centerY) / centerY) * -10;
+								const rotateY = ((x - centerX) / centerX) * 10;
 
-							gsap.to(card, {
-								rotationX: rotateX,
-								rotationY: rotateY,
-								scale: 1.04,
-								transformPerspective: 1000,
-								ease: "power1.out",
-								duration: 0.3
+								gsap.to(card, {
+									rotationX: rotateX,
+									rotationY: rotateY,
+									scale: 1.04,
+									transformPerspective: 1000,
+									ease: "power1.out",
+									duration: 0.3
+								});
+
+								glare.style.opacity = '1';
+								glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%)`;
 							});
 
-							// Efeito de Holofote no Cursor
-							glare.style.opacity = '1';
-							glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 70%)`;
-						});
-
-						card.addEventListener('mouseleave', function () {
-							gsap.to(card, {
-								rotationX: 0,
-								rotationY: 0,
-								scale: 1,
-								ease: "power2.out",
-								duration: 0.6
+							card.addEventListener('mouseleave', function () {
+								gsap.to(card, {
+									rotationX: 0,
+									rotationY: 0,
+									scale: 1,
+									ease: "power2.out",
+									duration: 0.6
+								});
+								glare.style.opacity = '0';
 							});
-							glare.style.opacity = '0';
-						});
+						}
 					});
+
+					// 2B. Efeito Onda 3D no Scroll (Mobile) - Plano no Centro, Distorcido nas Bordas
+					if (isMobile) {
+						function updateMobileWaveEffect() {
+							const viewportCenterY = window.innerHeight / 2;
+
+							cards.forEach(card => {
+								const rect = card.getBoundingClientRect();
+								const cardCenterY = rect.top + rect.height / 2;
+								const distanceFromCenter = cardCenterY - viewportCenterY;
+								const maxDistance = window.innerHeight * 0.55;
+
+								// Proximidade: 1 no centro exato da tela, 0 nas extremidades
+								let proximity = 1 - Math.abs(distanceFromCenter) / maxDistance;
+								proximity = Math.max(0, Math.min(1, proximity));
+
+								// Fator de distorção INVERTIDO: 0 no centro (card plano normal), cresce até 1 nas pontas
+								const distFactor = Math.pow(1 - proximity, 1.2);
+
+								// Direção do tilt dependendo se está na metade superior ou inferior
+								const direction = distanceFromCenter > 0 ? 1 : -1;
+
+								// Rotação Y (+12deg nas extremidades, 0deg plano no centro)
+								const rotateY = 12 * distFactor;
+								// Rotação X inclinada dependendo da direção do scroll
+								const rotateX = direction * 8 * distFactor;
+								// Deslocamento X sutil nas pontas
+								const xOffset = 6 * distFactor;
+								// Escala normal 1.0 no centro, encolhe levemente 0.96x nas extremidades
+								const scale = 1 - 0.04 * distFactor;
+
+								gsap.to(card, {
+									rotationY: rotateY,
+									rotationX: rotateX,
+									x: xOffset,
+									scale: scale,
+									transformPerspective: 1000,
+									transformOrigin: "50% 50%",
+									ease: "power1.out",
+									duration: 0.2
+								});
+
+								// Brilho holográfico que acende ao afastar do centro e zera no centro
+								const glare = card.querySelector('.card-glare-effect');
+								if (glare) {
+									glare.style.opacity = (distFactor * 0.6).toString();
+									glare.style.background = `linear-gradient(110deg, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 60%)`;
+								}
+							});
+						}
+
+						window.addEventListener('scroll', updateMobileWaveEffect, { passive: true });
+						window.addEventListener('resize', updateMobileWaveEffect, { passive: true });
+						updateMobileWaveEffect();
+					}
 				}
 			}
 		});
