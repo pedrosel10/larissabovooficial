@@ -2161,7 +2161,9 @@
 			}
 
 			.elementor-13 .elementor-element.elementor-element-a9f831e {
-				--width: 330px;
+				--width: 380px;
+				width: 100%;
+				max-width: 380px;
 				--flex-direction: column;
 				--container-widget-width: calc((1 - var(--container-widget-flex-grow)) * 100%);
 				--container-widget-height: initial;
@@ -2178,8 +2180,10 @@
 				--margin-right: 0px
 			}
 
-			.elementor-13 .elementor-element.elementor-element-f0d1900 .elementor-icon {
-				font-size: 50px
+			.elementor-13 .elementor-element.elementor-element-f0d1900 .elementor-icon#logo-3d-container canvas {
+				image-rendering: -webkit-optimize-contrast;
+				image-rendering: crisp-edges;
+				transform: translateZ(0);
 			}
 
 			.elementor-13 .elementor-element.elementor-element-f0d1900 .elementor-icon svg {
@@ -2187,10 +2191,10 @@
 			}
 
 			.elementor-13 .elementor-element.elementor-element-32f6302 {
-				--container-widget-width: 300px;
+				--container-widget-width: 240px;
 				--container-widget-flex-grow: 0;
-				width: var(--container-widget-width, 300px);
-				max-width: 300px;
+				width: var(--container-widget-width, 240px);
+				max-width: 240px;
 				text-align: center
 			}
 
@@ -5318,29 +5322,46 @@
 				const cards = document.querySelectorAll('.elementor-element-66fb92e > .e-child');
 
 				if (cards.length > 0) {
-					// 1. Animação de Entrada em Cascata 3D (Stagger ScrollTrigger)
-					gsap.fromTo(cards, 
-						{ 
-							opacity: 0, 
-							y: 60, 
-							rotationX: 15,
-							scale: 0.94 
-						}, 
-						{
-							opacity: 1,
-							y: 0,
-							rotationX: 0,
-							scale: 1,
-							duration: 1.0,
-							stagger: 0.12,
-							ease: "power3.out",
-							scrollTrigger: {
-								trigger: cardGrid || cards[0],
-								start: "top 85%",
-								toggleActions: "play none none reverse"
+					const isMobile = window.innerWidth <= 768;
+
+					function initCardsAnimation() {
+						gsap.fromTo(cards, 
+							{ 
+								opacity: 0, 
+								y: 60, 
+								rotationX: 15,
+								scale: 0.94 
+							}, 
+							{
+								opacity: 1,
+								y: 0,
+								rotationX: 0,
+								scale: 1,
+								duration: 1.0,
+								stagger: 0.12,
+								ease: "power3.out",
+								scrollTrigger: {
+									trigger: cardGrid || cards[0],
+									start: "top 85%",
+									toggleActions: "play none none reverse"
+								}
 							}
+						);
+					}
+
+					if (isMobile) {
+						// No mobile, aguarda explicitamente o término do preloader antes de disparar a entrada dos cards
+						if (window.isPreloaderDismissed) {
+							initCardsAnimation();
+						} else {
+							window.addEventListener('preloaderDismissed', function () {
+								setTimeout(initCardsAnimation, 300);
+							});
 						}
-					);
+					} else {
+						// No Desktop, executa imediatamente
+						initCardsAnimation();
+					}
 
 					// 2. Interação 3D Tilt Holográfico no Mouse (Desktop)
 					cards.forEach(card => {
@@ -5406,11 +5427,16 @@
 			const camera = new THREE.PerspectiveCamera(25, width / height, 1, 1000);
 			camera.position.set(0, 0, 550);
 
-			const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+			const renderer = new THREE.WebGLRenderer({ 
+				alpha: true, 
+				antialias: true,
+				powerPreference: "high-performance",
+				precision: "highp"
+			});
 			renderer.setSize(width, height);
-			renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+			renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
 			renderer.toneMapping = THREE.ACESFilmicToneMapping;
-			renderer.toneMappingExposure = 1.0;
+			renderer.toneMappingExposure = 1.15;
 			container.appendChild(renderer.domElement);
 
 			// PMREMGenerator para converter o HDRI EXR em iluminação e reflexo metálico realista (com fallback WebGL Safari/iOS)
@@ -5507,13 +5533,14 @@
 					child.position.sub(center);
 				});
 
-				// Ajustar escala exata do objeto 3D (reduzido 20% no mobile)
+				// Ajustar escala exata do objeto 3D (aumentado 30% no mobile)
 				const size = new THREE.Vector3();
 				box.getSize(size);
 				const isMobile = window.innerWidth <= 768;
-				const baseWidth = isMobile ? 432 : 540;   // 540 - 20% = 432
-				const baseHeight = isMobile ? 162 : 202.5; // 202.5 - 20% = 162
+				const baseWidth = isMobile ? 561 : 540;   // 432 * 1.3 = 561.6 (+30%)
+				const baseHeight = isMobile ? 210 : 202.5; // 162 * 1.3 = 210.6 (+30%)
 				const fitScale = Math.min(baseWidth / size.x, baseHeight / size.y);
+				logoGroup.scale.set(fitScale, fitScale, fitScale);
 
 				// Sinalizar que a logo 3D foi 100% carregada e pronta para exibição
 				window.isThreeLogoReady = true;
@@ -5708,6 +5735,8 @@
 				if (!isTextAnimationDone || !isPageLoaded || !isLogoReady) return;
 
 				preloader.classList.add('exit');
+				window.isPreloaderDismissed = true;
+				window.dispatchEvent(new CustomEvent('preloaderDismissed'));
 				setTimeout(() => {
 					if (preloader.parentNode) {
 						preloader.parentNode.removeChild(preloader);
