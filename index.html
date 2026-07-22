@@ -5324,8 +5324,12 @@
 
 				if (cards.length > 0) {
 					const isMobile = window.innerWidth <= 768;
+					let hasAnimated = false;
 
 					function initCardsAnimation() {
+						if (hasAnimated) return;
+						hasAnimated = true;
+
 						gsap.fromTo(cards, 
 							{ 
 								opacity: 0, 
@@ -5343,24 +5347,24 @@
 								ease: "power3.out",
 								scrollTrigger: {
 									trigger: cardGrid || cards[0],
-									start: "top 85%",
-									toggleActions: "play none none reverse"
+									start: "top 90%",
+									once: true
 								}
 							}
 						);
 					}
 
 					if (isMobile) {
-						// No mobile, aguarda explicitamente o término do preloader antes de disparar a entrada dos cards
+						// No mobile, aguarda o término do preloader para inicializar 1 única vez
 						if (window.isPreloaderDismissed) {
 							initCardsAnimation();
 						} else {
 							window.addEventListener('preloaderDismissed', function () {
-								setTimeout(initCardsAnimation, 300);
-							});
+								setTimeout(initCardsAnimation, 100);
+							}, { once: true });
 						}
 					} else {
-						// No Desktop, executa imediatamente
+						// No Desktop, executa normalmente
 						initCardsAnimation();
 					}
 
