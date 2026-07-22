@@ -2546,16 +2546,23 @@
 		}
 
 		.elementor-13 .elementor-element.elementor-element-66fb92e {
-			perspective: 1200px;
+			perspective: 1000px;
+			-webkit-perspective: 1000px;
 		}
 
 		.elementor-13 .elementor-element.elementor-element-66fb92e > .e-child {
 			transform-style: preserve-3d;
+			-webkit-transform-style: preserve-3d;
+			backface-visibility: hidden;
+			-webkit-backface-visibility: hidden;
 			transition: transform 0.15s ease-out, box-shadow 0.3s ease, filter 0.3s ease;
 			will-change: transform, opacity;
 			position: relative;
 			overflow: hidden;
 			opacity: 0;
+			-webkit-mask-image: -webkit-radial-gradient(white, black); /* Fix Safari Border-Radius Overflow Cutout */
+			transform: translateZ(0);
+			-webkit-transform: translateZ(0);
 		}
 
 		.card-glare-effect {
