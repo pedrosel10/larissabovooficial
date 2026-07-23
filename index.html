@@ -2557,6 +2557,7 @@
 			-webkit-backface-visibility: hidden;
 			transition: transform 0.15s ease-out, box-shadow 0.3s ease, filter 0.3s ease;
 			will-change: transform, opacity;
+			cursor: pointer;
 			position: relative;
 			overflow: hidden;
 			opacity: 0;
@@ -5209,11 +5210,603 @@
 						<div class="elementor-element elementor-element-6da5a7a elementor-widget elementor-widget-button"
 							data-id="6da5a7a" data-element_type="widget" data-e-type="widget"
 							data-widget_type="button.default">
-							<a class="elementor-button elementor-button-link elementor-size-sm" href="#">
+							<button class="elementor-button elementor-button-link elementor-size-sm" commandfor="larissa-bovo-dialog" command="show-modal" style="border: none !important;">
 								<span class="elementor-button-content-wrapper">
 									<span class="elementor-button-text">ACESSAR</span>
 								</span>
-							</a>
+							</button>
+
+<dialog id="larissa-bovo-dialog" class="larissa-dialog">
+    <div class="dialog-inner">
+        <!-- Vertical Slice Reveal Overlay -->
+        <div class="dialog-slices-overlay">
+            <div class="dialog-slice"></div>
+            <div class="dialog-slice"></div>
+            <div class="dialog-slice"></div>
+            <div class="dialog-slice"></div>
+            <div class="dialog-slice"></div>
+            <div class="dialog-slice"></div>
+        </div>
+
+        <button commandfor="larissa-bovo-dialog" command="close" class="close-dialog" aria-label="Fechar" title="Fechar">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+
+        <!-- Image Gallery Column -->
+        <div class="dialog-gallery">
+            <div class="gallery-track" id="galleryTrack">
+                <div class="gallery-slide active">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_31_2_1_1x.webp" alt="Larissa Bovo em consultoria" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_30_3_1_1x.webp" alt="Larissa Bovo atendendo cliente" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_31_1_1x.webp" alt="Larissa Bovo trabalhando" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_30_1_1_1x.webp" alt="Ferramentas de consultoria de imagem" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_30_2_1_1x.webp" alt="Análise de coloração pessoal" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_31_1_1_1x.webp" alt="Atendimento personalizado" loading="lazy">
+                </div>
+                <div class="gallery-slide">
+                    <img src="/imagens%20quem%20sou/whatsapp_image_2026_07_23_at_11_04_30_1_1x.webp" alt="Araras com roupas de consultoria" loading="lazy">
+                </div>
+            </div>
+            <div class="gallery-dots" id="galleryDots"></div>
+        </div>
+
+        <!-- Content Column -->
+        <div class="dialog-content">
+            <div class="dialog-ornament">
+                <span class="ornament-line"></span>
+                <span class="ornament-diamond">&#9830;</span>
+                <span class="ornament-line"></span>
+            </div>
+
+            <h3 class="dialog-title">Larissa Bovo</h3>
+
+            <p class="dialog-subtitle">Especialista em Posicionamento de Alto Padrão</p>
+
+            <div class="dialog-ornament small">
+                <span class="ornament-line"></span>
+            </div>
+
+            <div class="dialog-text">
+                <p>Mestre em Moda pela Universidade do Estado de Santa Catarina (UDESC), é formada em Design de moda, com curso profissionalizante também na área pelo Centro Europeu e pós-graduada em Marketing Digital pelo SENAC, possui inúmeros cursos na área do vestuário como modelagem, costura, desenho de moda e computação gráfica para moda.</p>
+                <p>Começou a empreender com 24 anos e ganhou vasta experiência em agências de publicidade em marketing de moda e então, no ano de 2020 relançou sua marca de moda fitness. Hoje, após sua especialização em Consultoria de imagem e estilo em Paris com Andréia Furco do Passaporte Fashionista, especialista na área, e sua transformação espiritual e experiência profética, lançou seu próprio método chamado <strong>AUTORIDADE SOBERANA</strong>, na qual ajuda mulheres a se libertarem da insegurança na frente de espelho, atrair os clientes qualificados e obter mais lucro com uma imagem que gera desejo.</p>
+                <p>Trabalha de forma online e presencial através de consultorias, mentorias, palestras, imersões e workshops.</p>
+            </div>
+
+            <div class="dialog-cta">
+                <a href="https://wa.me/5547992104060?text=Ol%C3%A1%21+Gostaria+de+saber+mais+sobre+o+trabalho+e+presen%C3%A7a+da+Larissa+Bovo." target="_blank" rel="noopener noreferrer" class="dialog-contact-btn">
+                    <span>ENTRAR EM CONTATO</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</dialog>
+
+<style>
+    /* ===== LARISSA BOVO PREMIUM DIALOG ===== */
+    .larissa-dialog {
+        background: transparent;
+        border: none;
+        padding: 0;
+        max-width: 960px;
+        width: 94vw;
+        overflow: visible;
+    }
+
+    html:has(dialog[open]), body:has(dialog[open]) {
+        overflow: hidden !important;
+        touch-action: none;
+    }
+
+    .larissa-dialog::backdrop {
+        background: rgba(10, 3, 4, 0.92);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        pointer-events: auto;
+    }
+
+    .larissa-dialog .dialog-inner {
+        position: relative;
+        display: grid;
+        grid-template-columns: 42% 1fr;
+        background: linear-gradient(145deg, #1a080c 0%, #120509 50%, #0e0407 100%);
+        border: 1px solid rgba(197, 155, 99, 0.25);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow:
+            0 0 0 1px rgba(197, 155, 99, 0.08),
+            0 25px 60px rgba(0, 0, 0, 0.7),
+            0 0 120px rgba(190, 93, 53, 0.06);
+        animation: dialogFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    @keyframes dialogFadeIn {
+        from { opacity: 0; transform: scale(0.96) translateY(12px); }
+        to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* Close Button */
+    .larissa-dialog .close-dialog {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 10;
+        background: rgba(0, 0, 0, 0.35);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgba(255, 255, 255, 0.7);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+
+    .larissa-dialog .close-dialog:hover {
+        background: rgba(190, 93, 53, 0.5);
+        color: #fff;
+        border-color: rgba(190, 93, 53, 0.6);
+        transform: rotate(90deg);
+    }
+
+    /* ===== GALLERY ===== */
+    .larissa-dialog .dialog-gallery {
+        position: relative;
+        overflow: hidden;
+        min-height: 480px;
+    }
+
+    .larissa-dialog .gallery-track {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .larissa-dialog .gallery-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+
+    .larissa-dialog .gallery-slide.active {
+        opacity: 1;
+    }
+
+    .larissa-dialog .gallery-slide img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .larissa-dialog .gallery-dots {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        gap: 8px;
+        z-index: 5;
+    }
+
+    .larissa-dialog .gallery-dots .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        padding: 0;
+    }
+
+    .larissa-dialog .gallery-dots .dot.active {
+        background: #c59b63;
+        border-color: #c59b63;
+        transform: scale(1.3);
+    }
+
+    .larissa-dialog .gallery-dots .dot:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    /* ===== CONTENT ===== */
+    .larissa-dialog .dialog-content {
+        padding: 45px 40px 40px 35px;
+        overflow-y: auto;
+        max-height: 80vh;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(197, 155, 99, 0.3) transparent;
+    }
+
+    .larissa-dialog .dialog-content::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    .larissa-dialog .dialog-content::-webkit-scrollbar-thumb {
+        background: rgba(197, 155, 99, 0.3);
+        border-radius: 4px;
+    }
+
+    /* Ornaments */
+    .larissa-dialog .dialog-ornament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .larissa-dialog .dialog-ornament.small {
+        margin-bottom: 28px;
+    }
+
+    .larissa-dialog .ornament-line {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(197, 155, 99, 0.4), transparent);
+    }
+
+    .larissa-dialog .ornament-diamond {
+        color: #c59b63;
+        font-size: 10px;
+        opacity: 0.7;
+    }
+
+    /* Title */
+    .larissa-dialog .dialog-title {
+        font-family: "Noto Serif Display", serif;
+        font-size: 2.4rem;
+        font-weight: 400;
+        font-style: italic;
+        color: #ffffff;
+        text-align: center;
+        margin: 0 0 8px 0;
+        letter-spacing: 0.08em;
+        line-height: 1.2;
+    }
+
+    .larissa-dialog .dialog-subtitle {
+        font-family: "Epilogue", sans-serif;
+        font-size: 0.65rem;
+        font-weight: 400;
+        color: #c59b63;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        margin: 0 0 16px 0;
+    }
+
+    /* Body Text */
+    .larissa-dialog .dialog-text p {
+        font-family: "Epilogue", sans-serif;
+        font-size: 0.82rem;
+        line-height: 1.7;
+        color: rgba(255, 255, 255, 0.72);
+        margin: 0 0 14px 0;
+        text-align: left;
+    }
+
+    .larissa-dialog .dialog-text p:last-child {
+        margin-bottom: 0;
+    }
+
+    .larissa-dialog .dialog-text strong {
+        color: #c59b63;
+        font-weight: 600;
+    }
+
+    /* CTA Button — matches card link style */
+    .larissa-dialog .dialog-cta {
+        margin-top: 32px;
+        text-align: center;
+    }
+
+    .larissa-dialog .dialog-contact-btn {
+        display: inline-block;
+        background-color: #be5d35;
+        color: #ffffff;
+        text-decoration: none;
+        font-family: "Epilogue", sans-serif;
+        font-size: 14px;
+        font-weight: 500;
+        padding: 11px 22px;
+        border-radius: 1000px;
+        letter-spacing: 0.05em;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        border: none;
+    }
+
+    .larissa-dialog .dialog-contact-btn:hover,
+    .larissa-dialog .dialog-contact-btn:focus {
+        background-color: #f59c78;
+        color: #ffffff;
+        transform: translateY(-2px);
+    }
+
+    /* ===== VERTICAL SLICES REVEAL ANIMATION ===== */
+    .larissa-dialog .dialog-slices-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        pointer-events: none;
+        overflow: hidden;
+        border-radius: 16px;
+    }
+
+    .larissa-dialog .dialog-slice {
+        flex: 1;
+        height: 100%;
+        background: #130608;
+        border-right: 1px solid rgba(197, 155, 99, 0.25);
+        transform: translateY(0%);
+        transition: transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+        will-change: transform;
+    }
+
+    .larissa-dialog .dialog-slice:last-child {
+        border-right: none;
+    }
+
+    .larissa-dialog .dialog-slice:nth-child(odd) {
+        transform-origin: top;
+    }
+
+    .larissa-dialog .dialog-slice:nth-child(even) {
+        transform-origin: bottom;
+    }
+
+    .larissa-dialog.slices-active .dialog-slice:nth-child(odd) {
+        transform: translateY(-101%);
+    }
+
+    .larissa-dialog.slices-active .dialog-slice:nth-child(even) {
+        transform: translateY(101%);
+    }
+
+    /* Opening delays */
+    .larissa-dialog.slices-active .dialog-slice:nth-child(1) { transition-delay: 0.00s; }
+    .larissa-dialog.slices-active .dialog-slice:nth-child(2) { transition-delay: 0.05s; }
+    .larissa-dialog.slices-active .dialog-slice:nth-child(3) { transition-delay: 0.10s; }
+    .larissa-dialog.slices-active .dialog-slice:nth-child(4) { transition-delay: 0.15s; }
+    .larissa-dialog.slices-active .dialog-slice:nth-child(5) { transition-delay: 0.20s; }
+    .larissa-dialog.slices-active .dialog-slice:nth-child(6) { transition-delay: 0.25s; }
+
+    /* Closing delays */
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(1) { transition-delay: 0.25s; }
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(2) { transition-delay: 0.20s; }
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(3) { transition-delay: 0.15s; }
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(4) { transition-delay: 0.10s; }
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(5) { transition-delay: 0.05s; }
+    .larissa-dialog:not(.slices-active) .dialog-slice:nth-child(6) { transition-delay: 0.00s; }
+
+    /* Dialog closing fade out */
+    .larissa-dialog.dialog-closing .dialog-inner {
+        animation: dialogFadeOut 0.4s 0.3s ease forwards;
+    }
+
+    .larissa-dialog.dialog-closing::backdrop {
+        opacity: 0;
+        transition: opacity 0.4s 0.3s ease;
+    }
+
+    @keyframes dialogFadeOut {
+        from { opacity: 1; transform: scale(1) translateY(0); }
+        to { opacity: 0; transform: scale(0.96) translateY(12px); }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+        .larissa-dialog {
+            width: 96vw;
+            max-width: 96vw;
+            overflow: visible;
+        }
+
+        .larissa-dialog .dialog-inner {
+            grid-template-columns: 1fr;
+            overflow: visible;
+            position: relative;
+        }
+
+        .larissa-dialog .dialog-gallery {
+            min-height: 250px;
+            max-height: 290px;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            overflow: hidden;
+        }
+
+        .larissa-dialog .dialog-content {
+            padding: 24px 20px 45px;
+            max-height: 50vh;
+            position: static;
+        }
+
+        .larissa-dialog .dialog-text {
+            -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - (100px * var(--scroll-fade, 1))), transparent 100%);
+            mask-image: linear-gradient(to bottom, #000 0%, #000 calc(100% - (100px * var(--scroll-fade, 1))), transparent 100%);
+        }
+
+        .larissa-dialog .dialog-title {
+            font-size: 1.8rem;
+        }
+
+        .larissa-dialog .dialog-text p {
+            font-size: 0.78rem;
+        }
+
+        .larissa-dialog .dialog-cta {
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            margin: 0;
+            z-index: 100;
+            width: max-content;
+        }
+
+        .larissa-dialog .dialog-contact-btn {
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6), 0 0 18px rgba(190, 93, 53, 0.4);
+            white-space: nowrap;
+        }
+    }
+</style>
+
+<script>
+(function() {
+    const dialog = document.getElementById('larissa-bovo-dialog');
+    if (!dialog) return;
+
+    const slides = dialog.querySelectorAll('.gallery-slide');
+    const dotsContainer = dialog.querySelector('#galleryDots');
+    let currentSlide = 0;
+    let autoInterval = null;
+
+    // Build dots
+    slides.forEach((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Imagem ' + (i + 1));
+        dot.addEventListener('click', () => goToSlide(i));
+        dotsContainer.appendChild(dot);
+    });
+
+    function goToSlide(index) {
+        slides[currentSlide].classList.remove('active');
+        dotsContainer.children[currentSlide].classList.remove('active');
+        currentSlide = index;
+        slides[currentSlide].classList.add('active');
+        dotsContainer.children[currentSlide].classList.add('active');
+    }
+
+    function nextSlide() {
+        goToSlide((currentSlide + 1) % slides.length);
+    }
+
+    function startAuto() {
+        stopAuto();
+        autoInterval = setInterval(nextSlide, 3500);
+    }
+
+    function stopAuto() {
+        if (autoInterval) { clearInterval(autoInterval); autoInterval = null; }
+    }
+
+    function runSliceReveal() {
+        dialog.classList.remove('dialog-closing');
+        dialog.classList.remove('slices-active');
+        void dialog.offsetWidth; // Force reflow
+        requestAnimationFrame(() => {
+            dialog.classList.add('slices-active');
+        });
+    }
+
+    const contentEl = dialog.querySelector('.dialog-content');
+    const textEl = dialog.querySelector('.dialog-text');
+    function updateScrollFade() {
+        if (!contentEl) return;
+        const scrollBottom = contentEl.scrollHeight - contentEl.scrollTop - contentEl.clientHeight;
+        const fadeRatio = Math.min(1, Math.max(0, scrollBottom / 70));
+        contentEl.style.setProperty('--scroll-fade', fadeRatio);
+        if (textEl) textEl.style.setProperty('--scroll-fade', fadeRatio);
+    }
+
+    if (contentEl) {
+        contentEl.addEventListener('scroll', updateScrollFade, { passive: true });
+    }
+
+    function disableBodyScroll() {
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        document.body.style.touchAction = 'none';
+    }
+
+    function enableBodyScroll() {
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+        document.body.style.touchAction = '';
+    }
+
+    let isClosing = false;
+    function closeDialogWithAnimation(e) {
+        if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        if (isClosing || !dialog.open) return;
+        isClosing = true;
+
+        dialog.classList.remove('slices-active');
+        dialog.classList.add('dialog-closing');
+
+        setTimeout(() => {
+            dialog.close();
+            dialog.classList.remove('dialog-closing');
+            isClosing = false;
+        }, 750);
+    }
+
+    const closeBtn = dialog.querySelector('.close-dialog');
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeDialogWithAnimation);
+    }
+
+    dialog.addEventListener('cancel', closeDialogWithAnimation);
+
+    // Close on backdrop click (outside dialog-inner)
+    dialog.addEventListener('click', (e) => {
+        const inner = dialog.querySelector('.dialog-inner');
+        if (!inner) return;
+        const rect = inner.getBoundingClientRect();
+        const isInside = (
+            e.clientX >= rect.left &&
+            e.clientX <= rect.right &&
+            e.clientY >= rect.top &&
+            e.clientY <= rect.bottom
+        );
+        if (!isInside) {
+            closeDialogWithAnimation(e);
+        }
+    });
+
+    // Start/stop auto-play, scroll lock & slice animation when dialog opens/closes
+    dialog.addEventListener('close', () => {
+        stopAuto();
+        enableBodyScroll();
+        dialog.classList.remove('slices-active');
+    });
+
+    const observer = new MutationObserver(() => {
+        if (dialog.open) {
+            disableBodyScroll();
+            goToSlide(0);
+            startAuto();
+            runSliceReveal();
+            setTimeout(updateScrollFade, 50);
+        } else {
+            enableBodyScroll();
+        }
+    });
+    observer.observe(dialog, { attributes: true, attributeFilter: ['open'] });
+})();
+</script>
 						</div>
 					</div>
 				</div>
@@ -5305,6 +5898,13 @@
 				}); var b = document.getElementsByTagName("body")[0]; var config = { childList: !0, subtree: !0 }; observer.observe(b, config)
 			}
 		}, !1)</script>
+	<script src="/wp-content/plugins/wpr-add-addons-for-elementor/assets/js/jarallax.min.js?ver=1.2.6" id="wpr-jarallax-js"></script>
+	<script type="module">
+	  if (!('commandForElement' in HTMLButtonElement.prototype)) {
+	    import('https://esm.run/invokers-polyfill');
+	  }
+	</script>
+</body>
 	<script data-no-minify="1" async=""
 		src="/wp-content/plugins/wp-rocket/assets/js/lazyload/17.8.3/lazyload.min.js"></script>
 	<script src="/wp-content/cache/min/1/970413d0a5208a4d5a6f14702f0307a0.js" data-minify="1" data-rocket-defer=""
@@ -5377,6 +5977,15 @@
 
 					// 2. Interação nos Cards
 					cards.forEach(card => {
+						card.style.cursor = 'pointer';
+						card.addEventListener('click', function (e) {
+							if (e.target.closest('a, button')) return;
+							const actionTarget = card.querySelector('a[href], button[commandfor]');
+							if (actionTarget) {
+								actionTarget.click();
+							}
+						});
+
 						let glare = card.querySelector('.card-glare-effect');
 						if (!glare) {
 							glare = document.createElement('div');
